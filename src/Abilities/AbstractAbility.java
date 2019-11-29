@@ -1,4 +1,6 @@
 package Abilities;
 
-public class AbstractAbility {
+public abstract class AbstractAbility {
+
+
 }
