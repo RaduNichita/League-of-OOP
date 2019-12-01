@@ -1,15 +1,11 @@
-package Constants;
-
-public final class TerrainConstants {
-    private static TerrainConstants instance = null;
-
-
-
-    public static TerrainConstants getInstance() {
-        if (instance == null) {
-            return new TerrainConstants();
-        } else {
-            return instance;
-        }
-    }
-}
+//package Constants;
+//
+//public final class TerrainConstants {
+//    private static final TerrainConstants instance = null;
+//
+//
+//
+//    public static TerrainConstants getInstance() {
+//        return new TerrainConstants();
+//    }
+//}

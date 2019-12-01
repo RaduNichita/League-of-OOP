@@ -1,4 +1,4 @@
-package Abilities;
+package abilities;
 
 public abstract class AbstractAbility {
 

@@ -1,4 +1,4 @@
-package GameInput;
+package gameinput;
 
 import fileio.FileSystem;
 
@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public final class GameInputLoader
-{
+public final class GameInputLoader {
     private final String inputPath;
     private final String outputPath;
 
@@ -17,34 +16,32 @@ public final class GameInputLoader
     }
 
     public GameInput load() {
-        int rows = 0;
-        int columns = 0;
-        int noPlayers = 0;
-        int noRounds = 0;
+        int rows;
+        int columns;
+        int noPlayers;
+        int noRounds;
         ArrayList<String> playerstypes = new ArrayList<>();
         ArrayList<Integer> playerPositions = new ArrayList<>();
         ArrayList<String> moves = new ArrayList<>();
-        char [][]TerrainTypes;
-
+        char[][] terrainTypes;
         try {
-            FileSystem fs = new FileSystem(inputPath,outputPath);
+            FileSystem fs = new FileSystem(inputPath, outputPath);
             rows = fs.nextInt();
             columns = fs.nextInt();
-            TerrainTypes = new char[rows][columns];
+            terrainTypes = new char[rows][columns];
             for (int i = 0; i < rows; i++) {
                 String line = fs.nextWord();
-                for (int j = 0; j<columns;j++) {
-                    TerrainTypes[i][j] = line.charAt(j);
+                for (int j = 0; j < columns; j++) {
+                    terrainTypes[i][j] = line.charAt(j);
                 }
             }
             noPlayers = fs.nextInt();
-            for (int i = 0; i<noPlayers;i++){
-              playerstypes.add(fs.nextWord());
-              Collections.addAll(playerPositions,fs.nextInt(),fs.nextInt());
+            for (int i = 0; i < noPlayers; i++) {
+                playerstypes.add(fs.nextWord());
+                Collections.addAll(playerPositions, fs.nextInt(), fs.nextInt());
             }
             noRounds = fs.nextInt();
-           // System.out.println(playerPositions);
-            for (int i = 0; i<noRounds; i++) {
+            for (int i = 0; i < noRounds; i++) {
                 moves.add(fs.nextWord());
             }
             fs.close();
@@ -53,7 +50,9 @@ public final class GameInputLoader
             e.printStackTrace();
             return null;
         }
-        return new GameInput.Builder().atRounds(noRounds).atCoordonates(playerPositions).atDimensions(rows,columns).atMap(TerrainTypes).atMoves(moves).atPlayers(playerstypes).build();
+        return new GameInput.Builder().atRounds(noRounds).atCoordonates(playerPositions)
+                .atDimensions(rows, columns).atMap(terrainTypes).atMoves(moves)
+                .atPlayers(playerstypes).build();
 
     }
 

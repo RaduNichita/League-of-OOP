@@ -1,6 +1,6 @@
-package Terrain;
+package terrain;
 
-import Players.AbstractPlayer;
+import players.AbstractPlayer;
 
 import java.util.ArrayList;
 
@@ -17,10 +17,10 @@ public  class Terrain {
         return players;
     }
 
-    protected char type;
-    protected int x_axis;
-    protected int y_axis;
-    ArrayList<AbstractPlayer> players = new ArrayList<>();
+    protected final char type;
+    protected final int x_axis;
+    protected final int y_axis;
+    private final ArrayList<AbstractPlayer> players = new ArrayList<>();
 
     public Terrain(char type, int x, int y) {
         this.type = type;
