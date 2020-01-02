@@ -10,9 +10,8 @@ import players.Pyromancer;
 public final class Paralysis implements IAbility {
 
 
-    private static final int BASE_DAMAGE = 40;
-    private static final int DAMAGE_PER_LEVEL = 10;
-    private int damage = BASE_DAMAGE;
+    private static final float BASE_DAMAGE = 40f;
+    private static final float DAMAGE_PER_LEVEL = 10f;
 
     private static final float ROGUE_MODIFICATOR = 0.9f;
     private static final float KNIGHT_MODIFICATOR = 0.8f;
@@ -22,11 +21,13 @@ public final class Paralysis implements IAbility {
     private static final int OVERTIMEROUNDS = 3;
     private static final int WOODSOVERTIMEROUNDS = 6;
 
+    private float damage = BASE_DAMAGE;
+
 
     @Override
     public float getLandModifier(final AbstractPlayer p) {
         float modifier = 1f;
-        if (p.getCurrentTerrain().getType() == p.getFavouriteTerrain()) {
+        if (p.getCurrentTerrain() == p.getFavouriteTerrain()) {
             modifier *= p.getBonusPercent();
         }
         return modifier;
@@ -34,31 +35,43 @@ public final class Paralysis implements IAbility {
 
     public float damagewithoutmodifier(final AbstractPlayer attack, final AbstractPlayer defend) {
         defend.setDebuff(
-                new Debuff((attack.getCurrentTerrain().getType() == attack.getFavouriteTerrain())
-                        ? WOODSOVERTIMEROUNDS : OVERTIMEROUNDS, (Math.round(
-                                damage * getLandModifier(attack)
-                                        * defend.requestModifier(this))),
+                new Debuff((attack.getCurrentTerrain() == attack.getFavouriteTerrain())
+                        ? WOODSOVERTIMEROUNDS : OVERTIMEROUNDS, (Math.round(Math.round(
+                        damage * (attack.modifierCalculator(this, defend)))
+                        * getLandModifier(attack))),
                         true));
         return damage;
     }
 
     @Override
-    public float opponent(final Knight k) {
+    public void levelUp() {
+        damage += DAMAGE_PER_LEVEL;
+    }
+
+    @Override
+    public int totaldamage(final AbstractPlayer attack, final AbstractPlayer defend) {
+        return Math.round(Math
+                .round(damagewithoutmodifier(attack, defend) * getLandModifier(attack)) * attack
+                .modifierCalculator(this, defend));
+    }
+
+    @Override
+    public float inContactWith(final Knight k) {
         return KNIGHT_MODIFICATOR;
     }
 
     @Override
-    public float opponent(final Wizard w) {
+    public float inContactWith(final Wizard w) {
         return WIZARD_MODIFICATOR;
     }
 
     @Override
-    public float opponent(final Pyromancer p) {
+    public float inContactWith(final Pyromancer p) {
         return PYROMANCER_MODIFICATOR;
     }
 
     @Override
-    public float opponent(final Rogue r) {
+    public float inContactWith(final Rogue r) {
         return ROGUE_MODIFICATOR;
     }
 }

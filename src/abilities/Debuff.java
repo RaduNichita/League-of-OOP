@@ -11,7 +11,6 @@ public final class Debuff {
     Debuff(final int duration, final float damage, final boolean stun) {
         this.damage = damage;
         this.duration = duration;
-        //System.out.println("Durata buff-ului este de"+ duration);
         this.stun = stun;
     }
 

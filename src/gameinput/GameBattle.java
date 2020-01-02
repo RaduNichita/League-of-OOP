@@ -11,6 +11,11 @@ public final class GameBattle {
 
     }
 
+    /**
+     * Check if two heroes will battle.
+     *
+     * @param players array of players currently in game.
+     */
     public static void battle(final ArrayList<AbstractPlayer> players) {
         for (int i = 0; i < players.size(); i++) {
             for (int j = i + 1; j < players.size(); j++) {
@@ -25,6 +30,14 @@ public final class GameBattle {
         }
     }
 
+    /**
+     * Do the fight between 2 players. The attack player will give the first attack, and defend
+     * player will give 2nd attack.
+     *
+     * @param hero1 -> attack player
+     * @param hero2 -> defend player
+     */
+
     public static void fight(final AbstractPlayer hero1, final AbstractPlayer hero2) {
 
 
@@ -33,19 +46,24 @@ public final class GameBattle {
         hero1.receiveDamage(damage2);
         hero2.receiveDamage(damage1);
 
+        if (hero2.getStatus() == PlayerStatus.DEAD) {
+            hero2.killNotification(hero1);
+            if (hero1.getStatus() == PlayerStatus.ALIVE) {
+                hero1.getExperience(hero2);
+            }
+        }
 
         if (hero1.getStatus() == PlayerStatus.DEAD) {
-            hero2.getExperience(hero1);
+            hero1.killNotification(hero2);
+            if (hero2.getStatus() == PlayerStatus.ALIVE) {
+                hero2.getExperience(hero1);
+            }
         }
 
-        if (hero2.getStatus() == PlayerStatus.DEAD) {
-            hero1.getExperience(hero2);
-        }
-
-
-
+        // update heroes parameters (if rogue);
 
         hero1.update();
         hero2.update();
     }
+
 }

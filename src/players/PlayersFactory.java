@@ -6,6 +6,15 @@ public final class PlayersFactory {
 
     }
 
+    /**
+     * Factory pattern for creating new Players.
+     *
+     * @param type the String literal for a player type
+     * @param x - initial X-axis Coordonate of a Player.
+     * @param y - iniitial Y-axis Coordonate of a Player.
+     * @return the specific type of a Player.
+     * @throws IllegalStateException if there is no match with current type of players.
+     */
     public static AbstractPlayer getPlayer(final String type, final int x, final int y) throws
             IllegalStateException {
         switch (type) {

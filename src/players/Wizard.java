@@ -3,41 +3,52 @@ package players;
 import abilities.Deflect;
 import abilities.Drain;
 import abilities.IAbility;
+import angels.Angel;
+import map.TerrainType;
+import strategies.IStrategy;
 
 
 public final class Wizard extends AbstractPlayer {
 
 
-    private final int maxhp = 400;
+    private static final int MAXHP = 400;
     private static final int BONUSHP = 30;
-    private final float bonusPercent = 1.1f;
-    private static final char FAVOURITE_TERRAIN = 'D';
+    private static final TerrainType FAVOURITE_TERRAIN = TerrainType.D;
+
+    private static final int WIZARD_ATTACK_COEF = 2;
+    private static final int WIZARD_DEFEND_COEF = 4;
+
+    private static final float WIZARD_ATTACK_STRATEGY_MODIFICATOR = 0.6f;
+    private static final float WIZARD_DEFEND_STRATEGY_MODIFICATOR = -0.2f;
+    private static final int WIZARD_ATTACK_HP_COEF = 10;
+    private static final int WIZARD_DEFEND_HP_COEF = 5;
+
+    Wizard(final int x, final int y) {
+        super(x, y);
+        super.setCurrentHp(MAXHP);
+        addAbility(new Drain());
+        addAbility(new Deflect());
+    }
 
     @Override
-    public char getFavouriteTerrain() {
+    public TerrainType getFavouriteTerrain() {
         return FAVOURITE_TERRAIN;
     }
 
     @Override
     public float getBonusPercent() {
+        float bonusPercent = 1.1f;
         return bonusPercent;
     }
 
     @Override
     public float requestModifier(final IAbility ability) {
-        return ability.opponent(this);
+        return ability.inContactWith(this);
     }
 
     @Override
     public int getMaxHP() {
-        return this.maxhp + BONUSHP * level;
-    }
-
-    Wizard(final int x, final int y) {
-        super(x, y);
-        super.setCurrentHp(maxhp);
-        addAbility(new Drain());
-        addAbility(new Deflect());
+        return MAXHP + BONUSHP * level;
     }
 
     @Override
@@ -45,7 +56,46 @@ public final class Wizard extends AbstractPlayer {
         return abstractPlayer.getTotalDamage(this);
     }
 
+    @Override
+    public void acceptAngel(Angel angel) {
+        angel.applyAbility(this);
+    }
 
+    @Override
+    public void strategyChoice() {
+
+
+        strategy = null;
+
+        if (this.getCurrentHp() < getMaxHP() / WIZARD_DEFEND_COEF) {
+            strategy = new Wizard.WizardDefendStrategy();
+
+        } else if (this.getCurrentHp() > getMaxHP() / WIZARD_DEFEND_COEF && this
+                .getCurrentHp() < getMaxHP() / WIZARD_ATTACK_COEF) {
+            strategy = new Wizard.WizardAttackStrategy();
+        }
+
+        if (strategy != null) {
+            strategy.applyStrategy();
+        }
+
+    }
+
+    private final class WizardAttackStrategy implements IStrategy {
+        @Override
+        public void applyStrategy() {
+            setStrategyModificator(WIZARD_ATTACK_STRATEGY_MODIFICATOR);
+            setCurrentHp(getCurrentHp() - getCurrentHp() / WIZARD_ATTACK_HP_COEF);
+        }
+    }
+
+    private final class WizardDefendStrategy implements IStrategy {
+        @Override
+        public void applyStrategy() {
+            setStrategyModificator(WIZARD_DEFEND_STRATEGY_MODIFICATOR);
+            setCurrentHp(getCurrentHp() + getCurrentHp() / WIZARD_DEFEND_HP_COEF);
+        }
+    }
 
 
 }
