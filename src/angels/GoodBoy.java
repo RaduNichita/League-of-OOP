@@ -1,9 +1,13 @@
 package angels;
 
-import players.Knight;
-import players.Pyromancer;
-import players.Rogue;
-import players.Wizard;
+import heroes.Knight;
+import heroes.Pyromancer;
+import heroes.Rogue;
+import heroes.Wizard;
+
+/**
+ * GoodBoy is the opposite of Dracula, an angel which both increases HP and damage capability.
+ */
 
 public final class GoodBoy extends Angel {
 

@@ -3,12 +3,12 @@ package angels;
 
 import designpatterns.INotification;
 import designpatterns.IObservable;
-import designpatterns.PlayerObserver;
-import players.AbstractPlayer;
-import players.Knight;
-import players.Pyromancer;
-import players.Rogue;
-import players.Wizard;
+import designpatterns.GreatMagician;
+import heroes.Hero;
+import heroes.Knight;
+import heroes.Pyromancer;
+import heroes.Rogue;
+import heroes.Wizard;
 
 
 public abstract class Angel implements IObservable {
@@ -41,12 +41,12 @@ public abstract class Angel implements IObservable {
      * @param p player affected.
      * @return a message after the angel has helped/hit the player.
      */
-    public String helpMessage(final AbstractPlayer p) {
+    public String helpMessage(final Hero p) {
         return this.getClass().getSimpleName() + " helped " + p.getClass().getSimpleName() + " " + p
                 .getPlayerId();
     }
 
-    public final void helpNotification(final AbstractPlayer p) {
+    public final void helpNotification(final Hero p) {
         notifyObserver(() -> Angel.this.helpMessage(p));
     }
 
@@ -61,7 +61,7 @@ public abstract class Angel implements IObservable {
 
     public final void notifyObserver(final INotification newnotification) {
         this.notification = newnotification;
-        PlayerObserver.getInstance().update(this);
+        GreatMagician.getInstance().update(this);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package map;
 
-import players.AbstractPlayer;
+import heroes.Hero;
 
 public final class Map {
 
@@ -44,11 +44,11 @@ public final class Map {
         terraintype[i][j] = new TerrainCell(i, j, TerrainType.valueOf(String.valueOf(terrain)));
     }
 
-    public static void joinCell(final AbstractPlayer p) {
+    public static void joinCell(final Hero p) {
         terraintype[p.getxCoordonate()][p.getyCoordonate()].joinCell(p);
     }
 
-    public static void leaveCell(final AbstractPlayer p) {
+    public static void leaveCell(final Hero p) {
         terraintype[p.getxCoordonate()][p.getyCoordonate()].leaveCell(p);
     }
     public static TerrainType getType(final int i, final int j) {

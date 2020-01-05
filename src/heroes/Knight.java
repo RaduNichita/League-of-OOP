@@ -1,4 +1,4 @@
-package players;
+package heroes;
 
 import abilities.Execute;
 import abilities.IAbility;
@@ -7,7 +7,7 @@ import angels.Angel;
 import map.TerrainType;
 import strategies.IStrategy;
 
-public final class Knight extends AbstractPlayer {
+public final class Knight extends Hero {
 
 
     private static final int MAX_HP = 900;
@@ -46,13 +46,13 @@ public final class Knight extends AbstractPlayer {
     }
 
     @Override
-    public int isAttacked(final AbstractPlayer abstractPlayer) {
+    public int isAttacked(final Hero abstractPlayer) {
         return abstractPlayer.getTotalDamage(this);
 
     }
 
     @Override
-    public void acceptAngel(Angel angel) {
+    public void acceptAngel(final Angel angel) {
         angel.applyAbility(this);
     }
 

@@ -1,10 +1,14 @@
 package angels;
 
-import players.Knight;
-import players.PlayerStatus;
-import players.Pyromancer;
-import players.Rogue;
-import players.Wizard;
+import heroes.Knight;
+import heroes.HeroStatus;
+import heroes.Pyromancer;
+import heroes.Rogue;
+import heroes.Wizard;
+
+/**
+ * Spawner is the only type of angel that deals with DEAD players, by reviving them.
+ */
 
 public final class Spawner extends Angel {
 
@@ -21,7 +25,7 @@ public final class Spawner extends Angel {
 
     @Override
     public void applyAbility(final Knight k) {
-        if (k.getStatus() == PlayerStatus.DEAD) {
+        if (k.getStatus() == HeroStatus.DEAD) {
             k.revive(KNIGHTHP);
 
         }
@@ -29,21 +33,21 @@ public final class Spawner extends Angel {
 
     @Override
     public void applyAbility(final Pyromancer p) {
-        if (p.getStatus() == PlayerStatus.DEAD) {
+        if (p.getStatus() == HeroStatus.DEAD) {
             p.revive(PYROMANCERHP);
         }
     }
 
     @Override
     public void applyAbility(final Rogue r) {
-        if (r.getStatus() == PlayerStatus.DEAD) {
+        if (r.getStatus() == HeroStatus.DEAD) {
             r.revive(ROGUEHP);
         }
     }
 
     @Override
     public void applyAbility(final Wizard w) {
-        if (w.getStatus() == PlayerStatus.DEAD) {
+        if (w.getStatus() == HeroStatus.DEAD) {
             w.revive(WIZARDHP);
         }
     }

@@ -1,4 +1,4 @@
-package players;
+package heroes;
 
 import abilities.Deflect;
 import abilities.Drain;
@@ -8,12 +8,13 @@ import map.TerrainType;
 import strategies.IStrategy;
 
 
-public final class Wizard extends AbstractPlayer {
+public final class Wizard extends Hero {
 
 
     private static final int MAXHP = 400;
     private static final int BONUSHP = 30;
     private static final TerrainType FAVOURITE_TERRAIN = TerrainType.D;
+    private static final float BONUS_PERCENT = 1.1f;
 
     private static final int WIZARD_ATTACK_COEF = 2;
     private static final int WIZARD_DEFEND_COEF = 4;
@@ -37,8 +38,7 @@ public final class Wizard extends AbstractPlayer {
 
     @Override
     public float getBonusPercent() {
-        float bonusPercent = 1.1f;
-        return bonusPercent;
+        return BONUS_PERCENT;
     }
 
     @Override
@@ -52,12 +52,12 @@ public final class Wizard extends AbstractPlayer {
     }
 
     @Override
-    public int isAttacked(final AbstractPlayer abstractPlayer) {
+    public int isAttacked(final Hero abstractPlayer) {
         return abstractPlayer.getTotalDamage(this);
     }
 
     @Override
-    public void acceptAngel(Angel angel) {
+    public void acceptAngel(final Angel angel) {
         angel.applyAbility(this);
     }
 

@@ -1,10 +1,10 @@
 package abilities;
 
-import players.AbstractPlayer;
-import players.Wizard;
-import players.Rogue;
-import players.Knight;
-import players.Pyromancer;
+import heroes.Hero;
+import heroes.Wizard;
+import heroes.Rogue;
+import heroes.Knight;
+import heroes.Pyromancer;
 
 public final class Slam implements IAbility {
 
@@ -18,7 +18,7 @@ public final class Slam implements IAbility {
     private float damage = BASE_DAMAGE;
 
     @Override
-    public float getLandModifier(final AbstractPlayer p) {
+    public float getLandModifier(final Hero p) {
         float modifier = 1f;
         if (p.getCurrentTerrain() == p.getFavouriteTerrain()) {
             modifier *= p.getBonusPercent();
@@ -27,7 +27,7 @@ public final class Slam implements IAbility {
     }
 
     @Override
-    public float damagewithoutmodifier(final AbstractPlayer attack, final AbstractPlayer defend) {
+    public float damagewithoutmodifier(final Hero attack, final Hero defend) {
         defend.setDebuff(new Debuff(1, 0, true));
         return damage;
     }
@@ -38,7 +38,7 @@ public final class Slam implements IAbility {
     }
 
     @Override
-    public int totaldamage(final AbstractPlayer attack, final AbstractPlayer defend) {
+    public int totaldamage(final Hero attack, final Hero defend) {
         return Math.round(Math
                 .round(damagewithoutmodifier(attack, defend) * getLandModifier(attack)) * attack
                 .modifierCalculator(this,

@@ -1,11 +1,14 @@
 package angels;
 
-import players.AbstractPlayer;
-import players.Knight;
-import players.Pyromancer;
-import players.Rogue;
-import players.Wizard;
+import heroes.Hero;
+import heroes.Knight;
+import heroes.Pyromancer;
+import heroes.Rogue;
+import heroes.Wizard;
 
+/**
+ * The Doomer is the evilest Angel, killing all players in a certain Map position.
+ */
 public final class TheDoomer extends Angel {
 
 
@@ -34,7 +37,7 @@ public final class TheDoomer extends Angel {
     }
 
     @Override
-    public String helpMessage(final AbstractPlayer p) {
+    public String helpMessage(final Hero p) {
         return this.getClass().getSimpleName() + " hit " + p.getClass().getSimpleName() + " " + p
                 .getPlayerId();
     }

@@ -1,10 +1,10 @@
 package abilities;
 
-import players.AbstractPlayer;
-import players.Wizard;
-import players.Rogue;
-import players.Knight;
-import players.Pyromancer;
+import heroes.Hero;
+import heroes.Wizard;
+import heroes.Rogue;
+import heroes.Knight;
+import heroes.Pyromancer;
 
 public final class Deflect implements IAbility {
 
@@ -19,7 +19,7 @@ public final class Deflect implements IAbility {
     private float percent = BASE_PERCENT;
 
     @Override
-    public float damagewithoutmodifier(final AbstractPlayer attack, final AbstractPlayer defend) {
+    public float damagewithoutmodifier(final Hero attack, final Hero defend) {
 
         return (defend.getDamageWithoutModifiers(attack) * Math.min(percent, MAX_PERCENT));
     }
@@ -30,14 +30,14 @@ public final class Deflect implements IAbility {
     }
 
     @Override
-    public int totaldamage(final AbstractPlayer attack, final AbstractPlayer defend) {
+    public int totaldamage(final Hero attack, final Hero defend) {
 
         return Math.round((damagewithoutmodifier(attack, defend) * getLandModifier(attack)) * attack
                 .modifierCalculator(this, defend));
     }
 
     @Override
-    public float getLandModifier(final AbstractPlayer p) {
+    public float getLandModifier(final Hero p) {
         float modifier = 1f;
         if (p.getCurrentTerrain() == p.getFavouriteTerrain()) {
             modifier *= p.getBonusPercent();

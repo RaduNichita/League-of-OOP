@@ -1,6 +1,6 @@
 package abilities;
 
-import players.AbstractPlayer;
+import heroes.Hero;
 
 public interface IAbility extends CharacterModificator {
 
@@ -10,7 +10,7 @@ public interface IAbility extends CharacterModificator {
      * @return p's bonus modifier if he is on favourite terrain.
      */
 
-    float getLandModifier(AbstractPlayer p);
+    float getLandModifier(Hero p);
 
 
     /**
@@ -20,10 +20,10 @@ public interface IAbility extends CharacterModificator {
      * @param defend the player receiving the attack
      * @return the amount of damage, calculated diferently for each ability.
      */
-    float damagewithoutmodifier(AbstractPlayer attack, AbstractPlayer defend);
+    float damagewithoutmodifier(Hero attack, Hero defend);
 
     void levelUp();
 
-    int totaldamage(AbstractPlayer attack, AbstractPlayer defend);
+    int totaldamage(Hero attack, Hero defend);
 
 }

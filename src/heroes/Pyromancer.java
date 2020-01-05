@@ -1,4 +1,4 @@
-package players;
+package heroes;
 
 import abilities.FireBlast;
 import abilities.IAbility;
@@ -7,7 +7,7 @@ import angels.Angel;
 import map.TerrainType;
 import strategies.IStrategy;
 
-public final class Pyromancer extends AbstractPlayer {
+public final class Pyromancer extends Hero {
 
 
     private static final int MAX_HP = 500;
@@ -52,13 +52,13 @@ public final class Pyromancer extends AbstractPlayer {
     }
 
     @Override
-    public int isAttacked(final AbstractPlayer abstractPlayer) {
+    public int isAttacked(final Hero abstractPlayer) {
         return abstractPlayer.getTotalDamage(this);
 
     }
 
     @Override
-    public void acceptAngel(Angel angel) {
+    public void acceptAngel(final Angel angel) {
         angel.applyAbility(this);
     }
 

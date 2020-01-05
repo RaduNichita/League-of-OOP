@@ -1,4 +1,4 @@
-package players;
+package heroes;
 
 import abilities.BackStab;
 import abilities.IAbility;
@@ -7,7 +7,7 @@ import angels.Angel;
 import map.TerrainType;
 import strategies.IStrategy;
 
-public final class Rogue extends AbstractPlayer {
+public final class Rogue extends Hero {
 
 
     public static final TerrainType FAVOURITE_TERRAIN = TerrainType.W;
@@ -50,7 +50,7 @@ public final class Rogue extends AbstractPlayer {
     }
 
     @Override
-    public void acceptAngel(Angel angel) {
+    public void acceptAngel(final Angel angel) {
         angel.applyAbility(this);
     }
 
@@ -84,7 +84,7 @@ public final class Rogue extends AbstractPlayer {
     }
 
     @Override
-    public int isAttacked(final AbstractPlayer abstractPlayer) {
+    public int isAttacked(final Hero abstractPlayer) {
         return abstractPlayer.getTotalDamage(this);
     }
 

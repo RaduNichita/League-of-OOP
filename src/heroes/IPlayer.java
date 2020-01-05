@@ -1,11 +1,11 @@
-package players;
+package heroes;
 
 import abilities.IAbility;
 
 public interface IPlayer {
 
 
-    int isAttacked(AbstractPlayer p);
+    int isAttacked(Hero p);
 
     /**
      * Implementing visitor pattern between player and abilty.

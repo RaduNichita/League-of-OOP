@@ -1,13 +1,14 @@
-package gameinput;
+package gamelogic;
 
 import angels.Angel;
 import angels.AngelsFactory;
-import designpatterns.PlayerObserver;
+import designpatterns.GreatMagician;
+import gameinput.GameInput;
 import gameoutput.GameOutput;
 import map.Map;
-import players.AbstractPlayer;
-import players.PlayerStatus;
-import players.PlayersFactory;
+import heroes.Hero;
+import heroes.HeroStatus;
+import heroes.HeroFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,7 +17,7 @@ public final class GameEngine {
 
     private final GameInput gameInput;
     private final GameOutput gameOutput;
-    private final ArrayList<AbstractPlayer> players = new ArrayList<>();
+    private final ArrayList<Hero> players = new ArrayList<>();
 
     public GameEngine(final GameInput gameInput, final GameOutput gameoutput) {
         this.gameInput = gameInput;
@@ -37,10 +38,10 @@ public final class GameEngine {
         for (String s : gameInput.getPlayers()) {
             int xAxis = iterator.next();
             int yAxis = iterator.next();
-            AbstractPlayer newPlayer = PlayersFactory.getPlayer(s, xAxis, yAxis);
+            Hero newPlayer = HeroFactory.getPlayer(s, xAxis, yAxis);
             newPlayer.setPlayerId(currentId);
             currentId++;
-            PlayerObserver.getInstance().addObservable(newPlayer);
+            GreatMagician.getInstance().addObservable(newPlayer);
             newPlayer.joinTerrain(xAxis, yAxis);
             players.add(newPlayer);
         }
@@ -79,7 +80,7 @@ public final class GameEngine {
 
         writeStart(roundNumber);
 
-        for (AbstractPlayer p : players) {
+        for (Hero p : players) {
             p.preFightDamage();
         }
 
@@ -88,7 +89,6 @@ public final class GameEngine {
 
         GameBattle.battle(players);
 
-        System.out.println(players);
 
         spawnAngels(roundNumber);
         writeEnd();
@@ -107,11 +107,11 @@ public final class GameEngine {
         angel.spawnNotification();
     }
 
-    private void writeHelpMessage(final Angel angel, final AbstractPlayer player) {
+    private void writeHelpMessage(final Angel angel, final Hero player) {
         angel.helpNotification(player);
     }
 
-    private void writeKillMessage(final AbstractPlayer p) {
+    private void writeKillMessage(final Hero p) {
         p.killNotification();
     }
 
@@ -148,7 +148,11 @@ public final class GameEngine {
         }
     }
 
-
+    /**
+     * For each round angels are spawned according to input round number. Then, they apply their
+     * effects on heroes located in the same Map Cell.
+     * @param roundNumber
+     */
     private void spawnAngels(final int roundNumber) {
         if (gameInput.getAngelTypes().get(roundNumber).size() != 0) {
             ArrayList<Angel> helpers = new ArrayList<>();
@@ -158,37 +162,39 @@ public final class GameEngine {
                 int xAxis = coordinateIterator.next();
                 int yAxis = coordinateIterator.next();
                 helpers.add(AngelsFactory.createAngel(s, xAxis, yAxis));
-                PlayerObserver.getInstance().addSecondObservable(helpers.get(helpers.size() - 1));
+                GreatMagician.getInstance().addSecondObservable(helpers.get(helpers.size() - 1));
             }
+
+
             for (Angel angel : helpers) {
                 writeSpawnMessage(angel);
                 int xAxis = angel.getxAxis();
                 int yAxis = angel.getyAxis();
-                for (AbstractPlayer p : Map.getCell(xAxis, yAxis).getPlayersList()) {
-                    PlayerStatus oldStatus = p.getStatus();
-                    if (p.getStatus() == PlayerStatus.ALIVE && !angel.getClass().getSimpleName()
+                for (Hero p : Map.getCell(xAxis, yAxis).getPlayersList()) {
+                    HeroStatus oldStatus = p.getStatus();
+                    if (p.getStatus() == HeroStatus.ALIVE && !angel.getClass().getSimpleName()
                             .equals("Spawner")) {
                         writeHelpMessage(angel, p);
                         p.acceptAngel(angel);
-                        if (oldStatus == PlayerStatus.ALIVE && p
-                                .getStatus() == PlayerStatus.DEAD) {
+                        if (oldStatus == HeroStatus.ALIVE && p
+                                .getStatus() == HeroStatus.DEAD) {
                             writeKillMessage(p);
                         }
-                    } else if (p.getStatus() == PlayerStatus.DEAD && angel.getClass()
+                    } else if (p.getStatus() == HeroStatus.DEAD && angel.getClass()
                             .getSimpleName().equals("Spawner")) {
                         writeHelpMessage(angel, p);
                         p.acceptAngel(angel);
                     }
                 }
             }
-            PlayerObserver.getInstance().resetAngels();
+            GreatMagician.getInstance().resetAngels();
         }
 
 
     }
 
 
-    public ArrayList<AbstractPlayer> finalScore() {
+    public ArrayList<Hero> finalScore() {
         return players;
     }
 

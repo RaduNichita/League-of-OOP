@@ -1,6 +1,6 @@
 package map;
 
-import players.AbstractPlayer;
+import heroes.Hero;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +10,7 @@ public final class TerrainCell {
 
     private int xAxis;
     private int yAxis;
-    private ArrayList<AbstractPlayer> playersList;
+    private ArrayList<Hero> playersList;
     private TerrainType type;
 
 
@@ -21,21 +21,16 @@ public final class TerrainCell {
         playersList = new ArrayList<>();
     }
 
-    void joinCell(final AbstractPlayer player) {
+    void joinCell(final Hero player) {
         playersList.add(player);
     }
 
-    void leaveCell(final AbstractPlayer player) {
+    void leaveCell(final Hero player) {
         playersList.remove(player);
     }
 
-    public ArrayList<AbstractPlayer> getPlayersList() {
-        Collections.sort(playersList, new Comparator<AbstractPlayer>() {
-            @Override
-            public int compare(final AbstractPlayer o1, final AbstractPlayer o2) {
-                return o1.getPlayerId() - o2.getPlayerId();
-            }
-        });
+    public ArrayList<Hero> getPlayersList() {
+        Collections.sort(playersList, Comparator.comparingInt(Hero::getPlayerId));
         return playersList;
     }
 

@@ -1,7 +1,7 @@
 package gameoutput;
 
 
-import players.AbstractPlayer;
+import heroes.Hero;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -27,7 +27,7 @@ public final class GameOutput {
             writer.println(requestMessage);
         }
 
-        public void writeResults(final Collection<? extends AbstractPlayer> array) {
+        public void writeResults(final Collection<? extends Hero> array) {
             writer.println("~~ Results ~~");
                 for (Object o : array) {
                     writer.println(o);

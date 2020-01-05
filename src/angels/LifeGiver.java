@@ -1,11 +1,13 @@
 package angels;
 
-import players.Knight;
-import players.Pyromancer;
-import players.Rogue;
-import players.Wizard;
+import heroes.Knight;
+import heroes.Pyromancer;
+import heroes.Rogue;
+import heroes.Wizard;
 
-
+/**
+ * LifeGiver Angel is an angel that provide a medium amount of HP to heroes.
+ */
 public final class LifeGiver extends Angel {
 
     private static final int KNIGHTHP = 100;

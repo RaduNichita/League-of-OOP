@@ -6,6 +6,14 @@ public final class AngelsFactory {
 
     }
 
+    /**
+     * Design of factory pattern to create angels.
+     * @param type type of angels provided by input file.
+     * @param x x-Axis Coordinate of angel.
+     * @param y y-Axis Coordinate of angel.
+     * @return an angel of type requested  at (x,y) position or throws error in case there is no
+     * such angel.
+     */
     public static Angel createAngel(final String type, final int x, final int y) {
         switch (type) {
             case "LifeGiver":

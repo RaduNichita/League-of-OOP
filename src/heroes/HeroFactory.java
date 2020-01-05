@@ -1,8 +1,8 @@
-package players;
+package heroes;
 
-public final class PlayersFactory {
+public final class HeroFactory {
 
-    private PlayersFactory() {
+    private HeroFactory() {
 
     }
 
@@ -15,7 +15,7 @@ public final class PlayersFactory {
      * @return the specific type of a Player.
      * @throws IllegalStateException if there is no match with current type of players.
      */
-    public static AbstractPlayer getPlayer(final String type, final int x, final int y) throws
+    public static Hero getPlayer(final String type, final int x, final int y) throws
             IllegalStateException {
         switch (type) {
             case "W":

@@ -1,10 +1,10 @@
 package abilities;
 
-import players.AbstractPlayer;
-import players.Wizard;
-import players.Rogue;
-import players.Knight;
-import players.Pyromancer;
+import heroes.Hero;
+import heroes.Wizard;
+import heroes.Rogue;
+import heroes.Knight;
+import heroes.Pyromancer;
 
 public final class Drain implements IAbility {
 
@@ -22,7 +22,7 @@ public final class Drain implements IAbility {
 
 
     @Override
-    public float getLandModifier(final AbstractPlayer p) {
+    public float getLandModifier(final Hero p) {
         float modificator = 1f;
         if (p.getCurrentTerrain() == p.getFavouriteTerrain()) {
             modificator *= p.getBonusPercent();
@@ -31,7 +31,7 @@ public final class Drain implements IAbility {
     }
 
     @Override
-    public float damagewithoutmodifier(final AbstractPlayer attack, final AbstractPlayer defend) {
+    public float damagewithoutmodifier(final Hero attack, final Hero defend) {
         return Math.min(HP_PERCENT * defend.getMaxHP(),
                 defend.getCurrentHp());
 
@@ -43,7 +43,7 @@ public final class Drain implements IAbility {
     }
 
     @Override
-    public int totaldamage(final AbstractPlayer attack, final AbstractPlayer defend) {
+    public int totaldamage(final Hero attack, final Hero defend) {
         return Math.round(Math.round(damagewithoutmodifier(attack,
                 defend) * getLandModifier(attack)) * (percent + percent * attack
                 .modifierCalculator(this, defend)));

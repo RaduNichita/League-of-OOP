@@ -1,11 +1,11 @@
-package players;
+package heroes;
 
 import abilities.Debuff;
 import abilities.IAbility;
 import angels.Angel;
 import designpatterns.INotification;
 import designpatterns.IObservable;
-import designpatterns.PlayerObserver;
+import designpatterns.GreatMagician;
 import map.Map;
 
 import map.TerrainType;
@@ -14,7 +14,7 @@ import strategies.IStrategy;
 
 import java.util.ArrayList;
 
-public abstract class AbstractPlayer implements IPlayer, IObservable {
+public abstract class Hero implements IPlayer, IObservable {
 
     protected static final int MAX_HP = 0;
     private static final int EXPERIENCE_COEF = 200;
@@ -29,7 +29,7 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
     protected int level = 0;
     protected int xCoordonate;
     protected int yCoordonate;
-    protected PlayerStatus status;
+    protected HeroStatus status;
     protected TerrainType currentTerrain;
     protected ArrayList<Float> strategyModificator;
     protected IStrategy strategy;
@@ -41,9 +41,9 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
     private boolean stunned = false;
     private INotification notification;
 
-    AbstractPlayer(final int x, final int y) {
+    Hero(final int x, final int y) {
         setCoordonate(x, y);
-        status = PlayerStatus.ALIVE;
+        status = HeroStatus.ALIVE;
         this.currentHp = this.getMaxHP();
         this.abilities = new ArrayList<>();
         this.strategyModificator = new ArrayList<>();
@@ -102,7 +102,7 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
         return stunned;
     }
 
-    public final PlayerStatus getStatus() {
+    public final HeroStatus getStatus() {
         return status;
     }
 
@@ -136,7 +136,7 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
     }
 
     public final void revive(final int hpRevive) {
-        this.status = PlayerStatus.ALIVE;
+        this.status = HeroStatus.ALIVE;
         this.setCurrentHp(hpRevive);
         reviveNotification();
 
@@ -151,7 +151,7 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
      * @return
      */
 
-    public final int getTotalDamage(final AbstractPlayer p) {
+    public final int getTotalDamage(final Hero p) {
         Float totalDamage = 0f;
         for (IAbility ability : abilities) {
 
@@ -185,7 +185,7 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
     }
 
 
-    public final float modifierCalculator(final IAbility ability, final AbstractPlayer p) {
+    public final float modifierCalculator(final IAbility ability, final Hero p) {
         float abilityModificator = p.requestModifier(ability);
 
         for (float f : this.getStrategyModificator()) {
@@ -200,7 +200,7 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
      * @param p -> the defender player
      * @return
      */
-    public final int getDamageWithoutModifiers(final AbstractPlayer p) {
+    public final int getDamageWithoutModifiers(final Hero p) {
         Float totalDamage = 0f;
         for (IAbility ability : abilities) {
             if (p.requestModifier(ability) != 0) {
@@ -242,19 +242,19 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
     }
 
 
-    public final void killNotification(final AbstractPlayer p) {
-        notifyObserver(() -> "Player " + AbstractPlayer.this.getClass()
+    public final void killNotification(final Hero p) {
+        notifyObserver(() -> "Player " + Hero.this.getClass()
                 .getSimpleName() + " " + getPlayerId() + " was killed by " + p.getClass()
                 .getSimpleName() + " " + p.getPlayerId());
     }
 
     public final void killNotification() {
-        notifyObserver(() -> "Player " + AbstractPlayer.this.getClass()
+        notifyObserver(() -> "Player " + Hero.this.getClass()
                 .getSimpleName()
                 +
                 " "
                 +
-                AbstractPlayer.this.getPlayerId()
+                Hero.this.getPlayerId()
                 +
                 " "
                 +
@@ -268,12 +268,12 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
     }
 
     public final void reviveNotification() {
-        notifyObserver(() -> "Player " + AbstractPlayer.this.getClass()
+        notifyObserver(() -> "Player " + Hero.this.getClass()
                 .getSimpleName()
                 +
                 " "
                 +
-                AbstractPlayer.this.getPlayerId()
+                Hero.this.getPlayerId()
                 +
                 " "
                 +
@@ -325,16 +325,16 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
      *
      * @param p player which was taken down by current player
      */
-    public final void getExperience(final AbstractPlayer p) {
+    public final void getExperience(final Hero p) {
         xp += Math.max(0, EXPERIENCE_COEF - (level - p.level) * EXPERIENCE_MULTIPLICATOR);
-        if (status == PlayerStatus.ALIVE) {
+        if (status == HeroStatus.ALIVE) {
             levelUp();
         }
     }
 
     public final void getExperience(final int xpGained) {
         this.xp += xpGained;
-        if (status == PlayerStatus.ALIVE) {
+        if (status == HeroStatus.ALIVE) {
             levelUp();
         }
     }
@@ -349,7 +349,7 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
      * change player status to dead.
      */
     private void setStatus() {
-        this.status = PlayerStatus.DEAD;
+        this.status = HeroStatus.DEAD;
     }
 
     /**
@@ -379,9 +379,9 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
         for (IAbility ability : getAbilities()) {
             ability.levelUp();
         }
-        notifyObserver(() -> AbstractPlayer.this.getClass()
-                .getSimpleName() + " " + AbstractPlayer.this.getPlayerId() + " reached "
-                + "level " + AbstractPlayer.this.getLevel());
+        notifyObserver(() -> Hero.this.getClass()
+                .getSimpleName() + " " + Hero.this.getPlayerId() + " reached "
+                + "level " + Hero.this.getLevel());
     }
 
     private void levelUp() {
@@ -394,14 +394,14 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
 
     @Override
     public final String toString() {
-        if (status == PlayerStatus.ALIVE) {
+        if (status == HeroStatus.ALIVE) {
             return (this.getClass().getSimpleName().charAt(0) + " " + this.getLevel() + " " + this
                     .getXp()
                     +
                     " " + this.getCurrentHp() + " " + this.getxCoordonate() + " " + this
                     .getyCoordonate());
         } else {
-            return (this.getClass().getSimpleName().charAt(0) + " " + PlayerStatus.DEAD.toString()
+            return (this.getClass().getSimpleName().charAt(0) + " " + HeroStatus.DEAD.toString()
                     .toLowerCase());
         }
     }
@@ -415,7 +415,7 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
         this.abilities.add(ability);
     }
 
-    public abstract int isAttacked(AbstractPlayer abstractPlayer);
+    public abstract int isAttacked(Hero abstractPlayer);
 
 
     /**
@@ -440,7 +440,7 @@ public abstract class AbstractPlayer implements IPlayer, IObservable {
 
     public final void notifyObserver(final INotification iNotification) {
         this.notification = iNotification;
-        PlayerObserver.getInstance().update(this);
+        GreatMagician.getInstance().update(this);
     }
 
     @Override

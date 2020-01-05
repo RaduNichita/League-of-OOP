@@ -1,10 +1,10 @@
 package abilities;
 
-import players.AbstractPlayer;
-import players.Wizard;
-import players.Rogue;
-import players.Knight;
-import players.Pyromancer;
+import heroes.Hero;
+import heroes.Wizard;
+import heroes.Rogue;
+import heroes.Knight;
+import heroes.Pyromancer;
 import map.TerrainType;
 
 public final class BackStab implements IAbility {
@@ -26,7 +26,7 @@ public final class BackStab implements IAbility {
 
 
     @Override
-    public float damagewithoutmodifier(final AbstractPlayer attack, final AbstractPlayer defend) {
+    public float damagewithoutmodifier(final Hero attack, final Hero defend) {
         float multipilicator = 1f;
         if (attack.getCurrentTerrain() == FAVORITE_TERRAIN) {
             if (attack.getCritical() % CRITICAL_HIT == 0) {
@@ -48,13 +48,13 @@ public final class BackStab implements IAbility {
     }
 
     @Override
-    public int totaldamage(final AbstractPlayer attack, final AbstractPlayer defend) {
+    public int totaldamage(final Hero attack, final Hero defend) {
         return Math.round(Math
                 .round(damagewithoutmodifier(attack, defend) * getLandModifier(attack)) * attack
                 .modifierCalculator(this, defend));
     }
 
-    public float getLandModifier(final AbstractPlayer p) {
+    public float getLandModifier(final Hero p) {
         float modifier = 1f;
         if (p.getCurrentTerrain() == p.getFavouriteTerrain()) {
             modifier *= p.getBonusPercent();

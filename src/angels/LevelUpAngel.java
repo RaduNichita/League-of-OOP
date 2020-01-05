@@ -1,9 +1,14 @@
 package angels;
 
-import players.Knight;
-import players.Pyromancer;
-import players.Rogue;
-import players.Wizard;
+import heroes.Knight;
+import heroes.Pyromancer;
+import heroes.Rogue;
+import heroes.Wizard;
+
+/**
+ * LevelUpAngel is an angel that gives player enough experience to level up. Moreover, the hero
+ * now give a little more damage.
+ */
 
 public final class LevelUpAngel extends Angel {
     private static final float KNIGHTMODIFICATOR = 0.1f;

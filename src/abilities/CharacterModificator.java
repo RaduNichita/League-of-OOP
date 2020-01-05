@@ -1,9 +1,9 @@
 package abilities;
 
-import players.Knight;
-import players.Pyromancer;
-import players.Rogue;
-import players.Wizard;
+import heroes.Knight;
+import heroes.Pyromancer;
+import heroes.Rogue;
+import heroes.Wizard;
 
 // Implementing visitor pattern by these 4 methods, which are called by the
 // requestModificator in each player class.

@@ -1,10 +1,14 @@
 package angels;
 
-import players.Knight;
-import players.Pyromancer;
-import players.Rogue;
-import players.Wizard;
+import heroes.Knight;
+import heroes.Pyromancer;
+import heroes.Rogue;
+import heroes.Wizard;
 
+
+/**
+ * XPAngel provides heroes a medium amount of XP, for nothing in exchange.
+ */
 public final class XPAngel extends Angel {
 
 

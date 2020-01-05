@@ -1,9 +1,13 @@
 package angels;
 
-import players.Knight;
-import players.Pyromancer;
-import players.Rogue;
-import players.Wizard;
+import heroes.Knight;
+import heroes.Pyromancer;
+import heroes.Rogue;
+import heroes.Wizard;
+
+/**
+ * SmallAngels is similar to GoodBoyAngel, giving both strength(for damage) and HP.
+ */
 
 public final class SmallAngel extends Angel {
 

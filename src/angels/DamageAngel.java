@@ -1,9 +1,13 @@
 package angels;
 
-import players.Knight;
-import players.Pyromancer;
-import players.Rogue;
-import players.Wizard;
+import heroes.Knight;
+import heroes.Pyromancer;
+import heroes.Rogue;
+import heroes.Wizard;
+
+/**
+ * Damage Angel, which allow player to give more damage.
+ */
 
 public final class DamageAngel extends Angel {
 
